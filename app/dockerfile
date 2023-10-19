@@ -1,0 +1,18 @@
+ARG NODE_VERSION=20
+ARG DEBIAN_FRONTEND=noninteractive
+
+FROM node:${NODE_VERSION} as caricare-app-base
+
+WORKDIR /app
+
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+
+# -- DEV
+FROM caricare-app-base as caricare-app-dev
+ENV NODE_ENV=development
+
+RUN apt-get update && apt-get install --no-install-recommends -y
+
+# Dependencies are volume mounted in the container
+ENTRYPOINT [ "./init.sh" ]
