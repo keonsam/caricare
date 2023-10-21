@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  
+  api-tests:
+    build:
+      context: ./api
+      target: caricare-api-tests # only use the dev step
+    container_name: caricare-api-tests
+    image: caricare-api-tests
+    init: true
+    ports:
+      - "3001:3000"
+    profiles:
+            - test
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./api:/app
+    networks:
+      - caricare
+    environment:
+      - PG_CONNECTION_STRING=postgresql://postgres:password@db:5432/caricare
+
+networks:
+  caricare:
+    name: caricare
+
+volumes:
+  postgres-data:

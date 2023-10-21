@@ -1,4 +1,4 @@
-ARG NODE_VERSION=20
+ARG NODE_VERSION=18
 ARG DEBIAN_FRONTEND=noninteractive
 
 FROM node:${NODE_VERSION} as caricare-api-base
@@ -8,6 +8,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
+
 # -- DEV
 FROM caricare-api-base as caricare-api-dev
 ENV NODE_ENV=development
@@ -16,3 +17,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y
 
 # Dependencies are volume mounted in the container
 ENTRYPOINT [ "./init.sh" ]
+
+# -- TEST
+FROM caricare-api-base as caricare-api-tests
+ENV NODE_ENV=test
+
+RUN apt-get update && apt-get install --no-install-recommends -y
+
+
+ENTRYPOINT [ "./init-test.sh" ]
+

@@ -30,7 +30,7 @@ while getopts "dhy" options; do
 done
 
 # This script should force your Docker environment to a clean slate. Best run on `main` branch.
-NODE_VERSION="20"
+NODE_VERSION="18"
 
 echo ""
 echo "-- Running 'docker-compose down --volumes': stops containers, removes them, and any persistent volumes (eg. Postgres, Redis)..."
