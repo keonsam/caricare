@@ -3,3 +3,6 @@
 
 #tests
 *coverage*
+
+#.env files
+.env
