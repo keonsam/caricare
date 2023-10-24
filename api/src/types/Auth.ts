@@ -1,3 +1,6 @@
+import { JwtPayload } from 'jsonwebtoken';
+import { UserInfo } from './User';
+
 export enum CredentialStatus {
   UNCONFIRMED = 'unconfirmed',
   CONFIRMED = 'confirmed',
@@ -27,8 +30,11 @@ export type Confirmation = {
   code: number;
 };
 
-export type UserDate = {
+export type UserData = {
   credentialId: string;
   role: UserRole;
   status: CredentialStatus;
+  info?: UserInfo;
 };
+
+export interface JWTPayload extends JwtPayload, UserData {}

@@ -33,14 +33,13 @@ const ConfirmCode = () => {
       const { data: res } = await axiosClient.post<LoginResponse>(
         '/confirm-code',
         {
-            id,
-            code: Number(data.code)
+          id,
+          code: Number(data.code),
         },
       );
 
-      //   navigate(`/user-profile/user`);
       logIn(res.token);
-      navigate('/login');
+      navigate('/create-profile');
     } catch (e) {
       // ts-ignore
       console.log(e);

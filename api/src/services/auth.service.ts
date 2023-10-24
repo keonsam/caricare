@@ -1,12 +1,6 @@
 import { ConfirmationRepository } from '../repositories/confirmation.repository';
 import { CredentialRepository } from '../repositories/credential.repository';
-import {
-  Register,
-  Confirmation,
-  CredentialStatus,
-  Login,
-  UserDate,
-} from '../types/Auth';
+import { Register, Confirmation, CredentialStatus, Login } from '../types/Auth';
 import argon2 from 'argon2';
 import { EmailService } from './email.service';
 import {
@@ -14,18 +8,19 @@ import {
   ConflictError,
   UnAuthorizedError,
 } from '../types/ApplicationError';
-import config from '../config';
-import jwt from 'jsonwebtoken';
+import { JWTService } from './jwt.service';
 
 export class AuthService {
   credentialRepository: CredentialRepository;
   confirmRepository: ConfirmationRepository;
   emailService: EmailService;
+  jwtService: JWTService;
 
   constructor() {
     this.credentialRepository = new CredentialRepository();
     this.confirmRepository = new ConfirmationRepository();
     this.emailService = new EmailService();
+    this.jwtService = new JWTService();
   }
 
   async login(auth: Login) {
@@ -48,7 +43,7 @@ export class AuthService {
     // TODO: verify if confirmation code is valid. Generate a new one if not
 
     // generate jwt
-    const token = this.generateToken({
+    const token = this.jwtService.generateToken({
       credentialId: credential.id,
       role: credential.role,
       status: credential.status,
@@ -115,20 +110,12 @@ export class AuthService {
     await this.credentialRepository.update(credential);
 
     // generate jwt
-    const token = this.generateToken({
+    const token = this.jwtService.generateToken({
       credentialId: credential.id,
       role: credential.role,
       status: credential.status,
     });
 
     return { token };
-  }
-
-  decodeJWT(token: string) {
-    return jwt.verify(token, config.jwtSecret);
-  }
-
-  generateToken(userData: UserDate) {
-    return jwt.sign(userData, config.jwtSecret, { expiresIn: '48h' });
   }
 }

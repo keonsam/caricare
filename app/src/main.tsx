@@ -12,6 +12,7 @@ import Home from './pages/Home/Home.tsx';
 import Login from './pages/Login/Login.tsx';
 import Register from './pages/Register/Register.tsx';
 import ConfirmCode from './pages/ConfirmCode/ConfirmCode.tsx';
+import UserInfo from './pages/UserInfo/UserInfo.tsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'create-profile',
+        element: <UserInfo />,
       },
       {
         path: 'dashboard',

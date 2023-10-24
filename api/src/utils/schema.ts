@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { UserRole } from '../types/Auth';
 
+// auth
 export const authSchema = Joi.object({
   username: Joi.string().trim().email().required(),
   password: Joi.string()
@@ -33,4 +34,20 @@ export const loginSchema = Joi.object({
       name: 'Must contain at least 1 special character.',
     })
     .required(),
+});
+
+// user
+export const userDoctorSchema = Joi.object({
+  firstName: Joi.string().trim().required(),
+  lastName: Joi.string().trim().required(),
+  title: Joi.string().trim().required(),
+  speciality: Joi.string().trim().required(),
+  officeName: Joi.string().trim().required(),
+  officeLocation: Joi.string().trim().required(),
+});
+
+export const userPatientSchema = Joi.object({
+  firstName: Joi.string().trim().required(),
+  lastName: Joi.string().trim().required(),
+  dob: Joi.string().trim().required(),
 });

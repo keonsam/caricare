@@ -1,4 +1,5 @@
-import authRouter from './auth.controller'
+import authRouter from './auth.controller';
+import userRouter from './user.controller';
 
-const routers = [authRouter]
-export default routers
+const routers = [authRouter, userRouter];
+export default routers;
