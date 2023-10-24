@@ -1,0 +1,40 @@
+.button {
+  border-radius: 10px;
+  height: 50px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: medium;
+  line-height: normal;
+  color: var(--celtic-blue);
+  background: #fff;
+  border: 1px solid var(--celtic-blue);
+  text-align: center;
+  letter-spacing: 1.25px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.primary {
+  background: var(--celtic-blue);
+  color: var(--white);
+}
+
+.full {
+  flex: 1;
+}
+
+.medium {
+  width: 149px;
+}
+
+.small {
+  width: 100px;
+  height: 34px;
+  border-color: var(--white);
+}
+
+.disabled {
+  background: var(--celtic-blue);
+  opacity: 0.5;
+  cursor: not-allowed;
+}

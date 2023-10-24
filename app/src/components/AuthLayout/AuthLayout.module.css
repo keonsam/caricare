@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.paper {
+  background: var(--white);
+  width: 100%;
+  min-height: 100%;
+  flex: 1;
+  padding: 16px;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+@media only screen and (min-width: 960px) {
+  .paper {
+    max-width: 928px;
+    border-radius: 25px;
+    box-shadow: var(--elevation-4);
+    min-height: 550px;
+  }
+}

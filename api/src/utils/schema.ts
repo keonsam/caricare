@@ -28,9 +28,9 @@ export const loginSchema = Joi.object({
     .trim()
     .min(12)
     .max(25)
-    .pattern(/\d+/, { name: 'must contain at least 1 number' })
+    .pattern(/\d+/, { name: 'Must contain at least 1 number.' })
     .pattern(/[^A-Za-z0-9\s]+/, {
-      name: 'must contain at least 1 special character',
+      name: 'Must contain at least 1 special character.',
     })
     .required(),
 });
