@@ -1,5 +1,12 @@
 import Joi from 'joi';
 import { UserRole } from '../types/Auth';
+import { AppointmentStatus } from '../types/Appointment';
+
+// common
+
+export const idSchema = Joi.object({
+  id: Joi.string().uuid().required(),
+});
 
 // auth
 export const authSchema = Joi.object({
@@ -50,4 +57,14 @@ export const userPatientSchema = Joi.object({
   firstName: Joi.string().trim().required(),
   lastName: Joi.string().trim().required(),
   dob: Joi.string().trim().required(),
+});
+
+// appointment
+
+export const appointmentSchema = Joi.object({
+  doctorId: Joi.string().uuid().required(),
+  createdBy: Joi.string().uuid().required(),
+  description: Joi.string().trim().required(),
+  dateOfAppointment: Joi.string().dataUri().required(),
+  status: Joi.string().allow(...Object.values(AppointmentStatus)),
 });

@@ -44,7 +44,7 @@ const UserInfo = () => {
   const onSubmit = async (data: PatientForm | DoctorForm) => {
     try {
       const { data: res } = await axiosClient.post<LoginResponse>(
-        `/user/${user.role}`,
+        `/users/${user.role}`,
         data,
         {
           headers: {

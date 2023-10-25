@@ -1,4 +1,6 @@
 export type UserDoctor = {
+  id: string;
+  credentialId: string;
   firstName: string;
   lastName: string;
   title: string;
@@ -8,6 +10,8 @@ export type UserDoctor = {
 };
 
 export type UserPatient = {
+  id: string;
+  credentialId: string;
   firstName: string;
   lastName: string;
   dob: string;

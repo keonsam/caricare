@@ -3,7 +3,6 @@ import { validate } from '../middleware/validation';
 import UserService from '../services/user.service';
 import { userDoctorSchema, userPatientSchema } from '../utils/schema';
 import { authenticate } from '../middleware/authentication';
-import { UserRole } from '../types/Auth';
 
 class UserController {
   userService: UserService;
@@ -29,14 +28,14 @@ const userController = new UserController();
 const userRouter = Router();
 
 userRouter.post(
-  '/user/doctor',
+  '/users/doctor',
   authenticate,
   validate(userDoctorSchema, 'body'),
   userController.create,
 );
 
 userRouter.post(
-  '/user/patient',
+  '/users/patient',
   authenticate,
   validate(userPatientSchema, 'body'),
   userController.create,
