@@ -13,4 +13,5 @@ export type Appointment = {
   description: string;
   dateOfAppointment: string;
   status: AppointmentStatus;
+  ipAddress: string;
 };

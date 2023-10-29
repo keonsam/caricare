@@ -1,12 +1,8 @@
 import { UserRole } from './Register';
 
-export type User = {
+export type Doctor = {
+  id: string;
   credentialId: string;
-  exp: number;
-  role: UserRole;
-};
-
-export type DoctorForm = {
   firstName: string;
   lastName: string;
   title: string;
@@ -15,10 +11,31 @@ export type DoctorForm = {
   officeLocation: string;
 };
 
-export type PatientForm = {
+export type Patient = {
+  id: string;
   firstName: string;
   lastName: string;
   dob: string;
+  address: string;
+  height: number;
+  weight: number;
 };
+
+export type UserInfo = {
+  id: string;
+  firstName: string;
+  lastName: string;
+};
+
+export type User = {
+  credentialId: string;
+  exp: number;
+  role: UserRole;
+  info: Partial<UserInfo>;
+};
+
+export type DoctorForm = Omit<Doctor, 'id' | 'credentialId'>;
+
+export type PatientForm = Omit<Patient, 'id'>;
 
 export type UserInfoForm = DoctorForm & PatientForm;

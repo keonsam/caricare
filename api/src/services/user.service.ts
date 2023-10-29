@@ -1,7 +1,7 @@
 import { JWTPayload } from '../types/Auth';
 import UserRepository from '../repositories/user.repository';
 import { JWTService } from './jwt.service';
-import { UserInfo } from '../types/User';
+import { UserInfoData } from '../types/User';
 
 export default class UserService {
   userRepo: UserRepository;
@@ -11,7 +11,11 @@ export default class UserService {
     this.jwtRepo = new JWTService();
   }
 
-  async create(user: JWTPayload, userInfo: UserInfo) {
+  async findAllDoctor() {
+    return this.userRepo.findAllDoctor();
+  }
+
+  async create(user: JWTPayload, userInfo: UserInfoData) {
     // create user info account
     userInfo.credentialId = user.credentialId;
     const savedUser = await this.userRepo.create(userInfo);
@@ -21,9 +25,18 @@ export default class UserService {
       credentialId: user.credentialId,
       role: user.role,
       status: user.status,
-      info: savedUser,
+      info: {
+        id: savedUser.id,
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+      },
+      ipAddress: user.ipAddress,
     });
 
     return { token };
   }
+
+  // async delete(user: JWTPayload) {
+  //   return this.userRepo.delete(user.role, user.info.id);
+  // }
 }

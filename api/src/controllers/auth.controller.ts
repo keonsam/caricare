@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { authSchema, confirmSchema, loginSchema } from '../utils/schema';
+import { confirmSchema, loginSchema, registerSchema } from '../utils/schema';
 import { validate } from '../middleware/validation';
-import { Register, Confirmation, Login } from '../types/Auth';
+import { Register } from '../types/Auth';
 import { AuthService } from '../services/auth.service';
 
 class AuthController {
@@ -14,9 +14,9 @@ class AuthController {
     req.log.info('Login Request');
 
     try {
-      const login: Login = req.body;
+      const { body, ip } = req;
 
-      const token = await this.authService.login(login);
+      const token = await this.authService.login(ip, body);
       res.status(200).json(token);
     } catch (error) {
       next(error);
@@ -27,7 +27,12 @@ class AuthController {
     req.log.info('Register Request');
 
     try {
-      const auth: Register = req.body;
+      const { body, ip } = req;
+
+      const auth: Register = {
+        ...body,
+        ipAddress: ip,
+      };
 
       const confirmation = await this.authService.register(auth);
       res.status(201).json(confirmation);
@@ -40,10 +45,22 @@ class AuthController {
     req.log.info('Confirm code Request');
 
     try {
-      const confirm: Confirmation = req.body;
+      const { body, ip } = req;
 
-      const token = await this.authService.confirm(confirm);
+      const token = await this.authService.confirm(ip, body);
       res.status(200).json(token);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    req.log.info('Delete Account Request');
+    try {
+      const { user } = req;
+
+      const result = await this.authService.delete(user.credentialId);
+      res.status(201).json(result);
     } catch (error) {
       next(error);
     }
@@ -56,9 +73,11 @@ const authRouter = Router();
 
 authRouter.post(
   '/register',
-  validate(authSchema, 'body'),
+  validate(registerSchema, 'body'),
   authController.register,
 );
+
+authRouter.post('/login', validate(loginSchema, 'body'), authController.login);
 
 authRouter.post(
   '/confirm-code',
@@ -66,6 +85,10 @@ authRouter.post(
   authController.confirm,
 );
 
-authRouter.post('/login', validate(loginSchema, 'body'), authController.login);
+authRouter.delete(
+  '/account',
+  validate(confirmSchema, 'body'),
+  authController.confirm,
+);
 
 export default authRouter;

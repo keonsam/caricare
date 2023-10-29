@@ -1,5 +1,5 @@
 .button {
-  border-radius: 10px;
+  border-radius: 8px;
   height: 50px;
   font-size: 14px;
   font-style: normal;
@@ -14,9 +14,32 @@
   cursor: pointer;
 }
 
-.primary {
+.solid.primary {
   background: var(--celtic-blue);
   color: var(--white);
+}
+
+.solid.secondary {
+  background: var(--forest-green);
+  color: var(--white);
+}
+
+.solid.warn {
+  background: var(--cinnabar);
+  color: var(--white);
+  border: 1px solid var(--cinnabar);
+}
+
+.outlined.secondary {
+  background: var(--white);
+  border: 1px solid var(--forest-green);
+  color: var(--forest-green);
+}
+
+.outlined.warn {
+  background: var(--white);
+  color: var(--cinnabar);
+  border: 1px solid var(--cinnabar);
 }
 
 .full {
@@ -24,17 +47,21 @@
 }
 
 .medium {
-  width: 149px;
+  width: 250px;
 }
 
 .small {
-  width: 100px;
-  height: 34px;
-  border-color: var(--white);
+  width: 125px;
+  height: 41px;
 }
 
 .disabled {
   background: var(--celtic-blue);
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* styles for primary button only */
+.buttonIcon {
+  margin-right: 8px;
 }

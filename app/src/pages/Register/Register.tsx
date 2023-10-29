@@ -31,6 +31,7 @@ const AccountType = ({ active, header, onClick, text }: AccountTypeProps) => {
 const Register = () => {
   const [formError, setFormError] = useState('');
   const navigate = useNavigate();
+  const [isSaving, setIsSaving] = useState(false);
 
   const {
     register,
@@ -49,6 +50,7 @@ const Register = () => {
 
   const onSubmit = async (data: RegisterForm) => {
     try {
+      setIsSaving(true);
       const { data: res } = await axiosClient.post<RegisterResponse>(
         '/register',
         data,
@@ -58,31 +60,31 @@ const Register = () => {
       // ts-ignore
       console.log(e);
       if (e instanceof Error) setFormError(e?.message || '');
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const role = getValues('role');
 
   return (
-    <AuthLayout>
+    <AuthLayout subTitle="Sign Up">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <p>Account Type:</p>
-
-          <div className={styles.cardContainer}>
-            <AccountType
-              active={role === 'patient'}
-              header="Patient"
-              onClick={() => setValue('role', 'patient')}
-              text="Schedule Appointment and manage health information"
-            />
-            <AccountType
-              active={role === 'doctor'}
-              header="Doctor"
-              onClick={() => setValue('role', 'doctor')}
-              text="Manage patient and appointments history"
-            />
-          </div>
+        {/* TODO: make accessible and move to components */}
+        <label className={styles.accountLabel}>Choose Account Type:</label>
+        <div className={styles.cardContainer}>
+          <AccountType
+            active={role === 'patient'}
+            header="Patient"
+            onClick={() => setValue('role', 'patient')}
+            text="Schedule Appointment with doctor"
+          />
+          <AccountType
+            active={role === 'doctor'}
+            header="Doctor"
+            onClick={() => setValue('role', 'doctor')}
+            text="Manage Patients and Appointments"
+          />
         </div>
         <TextField<RegisterForm>
           id="username"
@@ -99,7 +101,6 @@ const Register = () => {
             },
           }}
         />
-
         <TextField<RegisterForm>
           id="password"
           label="Password"
@@ -121,10 +122,16 @@ const Register = () => {
             },
           }}
         />
-
         <ErrorMessage message={formError} />
         <div className={styles.buttonContainer}>
-          <Button label="Sign Up" type="submit" primary disabled={!isValid} />
+          <Button
+            label="Submit"
+            type="submit"
+            disabled={isSaving || !isValid}
+            size="full"
+            variant="solid"
+            color="primary"
+          />
         </div>
       </form>
     </AuthLayout>

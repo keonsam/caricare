@@ -24,6 +24,16 @@ export class UnAuthorizedError extends ApplicationError {
   }
 }
 
+export class ForbiddenError extends ApplicationError {
+  name = 'Forbidden';
+  status = 403;
+
+  constructor(message: string, stack?: string) {
+    super(message);
+    this.stack = stack;
+  }
+}
+
 export class NotFoundError extends ApplicationError {
   name = 'Not Found';
   status = 404;

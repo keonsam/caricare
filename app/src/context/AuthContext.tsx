@@ -6,6 +6,7 @@ const initialUser: User = {
   role: 'patient',
   credentialId: '',
   exp: new Date().getTime(),
+  info: {},
 };
 const initial = {
   isLogIn: () => false,

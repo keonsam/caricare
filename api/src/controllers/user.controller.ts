@@ -3,6 +3,9 @@ import { validate } from '../middleware/validation';
 import UserService from '../services/user.service';
 import { userDoctorSchema, userPatientSchema } from '../utils/schema';
 import { authenticate } from '../middleware/authentication';
+import { authorization } from '../middleware/authorization';
+import { UserRole } from '../types/Auth';
+import { UserInfoData } from '../types/User';
 
 class UserController {
   userService: UserService;
@@ -10,13 +13,31 @@ class UserController {
     this.userService = new UserService();
   }
 
-  create = async (req: Request, res: Response, next: NextFunction) => {
+  // used by the patient api to find doctors
+  // leave simple for now
+  findAllDoctor = async (req: Request, res: Response, next: NextFunction) => {
+    req.log.info('find All Doctors Request');
     try {
-      const { user, body: userInfo } = req;
-      req.log.info(`Create User /${user.role} Request`);
+      const result = await this.userService.findAllDoctor();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
 
-      const token = await this.userService.create(user, userInfo);
-      res.status(200).json(token);
+  create = async (req: Request, res: Response, next: NextFunction) => {
+    req.log.info('Create User Request');
+
+    try {
+      const { user, body, ip } = req;
+
+      const userInfo: UserInfoData = {
+        ...body,
+        ipAddress: ip,
+      };
+
+      const result = await this.userService.create(user, userInfo);
+      res.status(201).json(result);
     } catch (error) {
       next(error);
     }
@@ -27,16 +48,25 @@ const userController = new UserController();
 
 const userRouter = Router();
 
-userRouter.post(
-  '/users/doctor',
+userRouter.get(
+  '/doctors',
   authenticate,
+  authorization([UserRole.PATIENT]),
+  userController.findAllDoctor,
+);
+
+userRouter.post(
+  '/doctors',
+  authenticate,
+  authorization([UserRole.DOCTOR]),
   validate(userDoctorSchema, 'body'),
   userController.create,
 );
 
 userRouter.post(
-  '/users/patient',
+  '/patients',
   authenticate,
+  authorization([UserRole.PATIENT]),
   validate(userPatientSchema, 'body'),
   userController.create,
 );

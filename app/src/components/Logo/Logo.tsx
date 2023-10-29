@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Logo.module.css';
-import { faUserNurse } from '@fortawesome/free-solid-svg-icons';
+import { faDna,  } from '@fortawesome/free-solid-svg-icons';
 
 const Logo = () => {
   return (
-    <div className={styles.container}>
-      <FontAwesomeIcon icon={faUserNurse} className={styles.icon} />
+    <div className={styles.logo}>
+      <FontAwesomeIcon icon={faDna} className={styles.icon} />
       <h1 className={styles.header}>CariCare</h1>
     </div>
   );

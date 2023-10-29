@@ -9,21 +9,24 @@ import {
   UnAuthorizedError,
 } from '../types/ApplicationError';
 import { JWTService } from './jwt.service';
+import UserRepository from '../repositories/user.repository';
 
 export class AuthService {
   credentialRepository: CredentialRepository;
   confirmRepository: ConfirmationRepository;
   emailService: EmailService;
   jwtService: JWTService;
+  userRepo: UserRepository;
 
   constructor() {
     this.credentialRepository = new CredentialRepository();
     this.confirmRepository = new ConfirmationRepository();
     this.emailService = new EmailService();
     this.jwtService = new JWTService();
+    this.userRepo = new UserRepository();
   }
 
-  async login(auth: Login) {
+  async login(ip: string, auth: Login) {
     const { username, password } = auth;
 
     // verify username
@@ -42,11 +45,19 @@ export class AuthService {
 
     // TODO: verify if confirmation code is valid. Generate a new one if not
 
+    // find user info
+    const info = await this.userRepo.findUserByCredentialId(
+      credential.role,
+      credential.id,
+    );
+
     // generate jwt
     const token = this.jwtService.generateToken({
       credentialId: credential.id,
       role: credential.role,
       status: credential.status,
+      info: info || {},
+      ipAddress: ip,
     });
 
     return { token };
@@ -80,7 +91,7 @@ export class AuthService {
     return { confirmationId: confirm.id };
   }
 
-  async confirm(confirm: Omit<Confirmation, 'credentialId'>) {
+  async confirm(ip: string, confirm: Omit<Confirmation, 'credentialId'>) {
     // validate confirmation id and code
     const savedConfirm = await this.confirmRepository.findByPk(confirm.id);
 
@@ -106,6 +117,7 @@ export class AuthService {
     }
 
     credential.status = CredentialStatus.CONFIRMED;
+    credential.ipAddress = ip;
 
     await this.credentialRepository.update(credential);
 
@@ -114,8 +126,15 @@ export class AuthService {
       credentialId: credential.id,
       role: credential.role,
       status: credential.status,
+      info: {},
+      ipAddress: ip,
     });
 
     return { token };
+  }
+
+  async delete(credentialId: string) {
+    return this.credentialRepository.delete(credentialId);
+    //TODO: Send confirmation of account delete email
   }
 }

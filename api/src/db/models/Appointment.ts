@@ -10,8 +10,8 @@ import {
   Table,
 } from 'sequelize-typescript';
 import Credential from './Credential';
-import UserDoctor from './UserDoctor';
-import UserPatient from './UserPatient';
+import Doctor from './Doctor';
+import Patient from './Patient';
 import { AppointmentStatus } from '../../types/Appointment';
 
 @Table({
@@ -29,31 +29,35 @@ export default class Appointment extends Model {
   @Column(DataType.UUID)
   credentialId: string;
 
-  @ForeignKey(() => UserDoctor)
+  @ForeignKey(() => Doctor)
   @AllowNull(false)
   @Column(DataType.UUID)
   doctorId: string;
 
-  @BelongsTo(() => UserDoctor, 'doctorId')
-  doctor: UserDoctor;
+  @BelongsTo(() => Doctor, 'doctorId')
+  doctor: Doctor;
 
-  @ForeignKey(() => UserPatient)
+  @ForeignKey(() => Patient)
   @AllowNull(false)
   @Column(DataType.UUID)
   patientId: string;
 
-  @BelongsTo(() => UserPatient, 'patientId')
-  patient: UserPatient;
+  @BelongsTo(() => Patient, 'patientId')
+  patient: Patient;
 
   @AllowNull(false)
   @Column
   description: string;
 
   @AllowNull(false)
-  @Column(DataType.TIME)
+  @Column(DataType.DATE)
   dateOfAppointment: string;
 
   @AllowNull(false)
   @Column(DataType.ENUM(...Object.values(AppointmentStatus)))
   status: AppointmentStatus;
+
+  @AllowNull(false)
+  @Column
+  ipAddress: string;
 }

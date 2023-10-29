@@ -1,5 +1,8 @@
+.form {
+  margin-top: 64px;
+}
+
 .buttonContainer {
   display: flex;
-  margin-top: 24px;
-  justify-content: flex-end;
+  margin-top: 48px;
 }

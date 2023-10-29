@@ -16,6 +16,7 @@ const Login = () => {
   const [formError, setFormError] = useState('');
   const navigate = useNavigate();
   const { logIn } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
 
   const {
     register,
@@ -31,22 +32,25 @@ const Login = () => {
 
   const onSubmit = async (data: RegisterForm) => {
     try {
+      setIsSaving(true);
       const { data: res } = await axiosClient.post<LoginResponse>(
         '/login',
         data,
       );
       logIn(res.token);
-      navigate('/dashboard');
+      navigate('/appointments');
     } catch (e) {
       // ts-ignore
       console.log(e);
       if (e instanceof Error) setFormError(e?.message || '');
+    } finally {
+      setIsSaving(false);
     }
   };
 
   return (
-    <AuthLayout>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <AuthLayout subTitle="Login">
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <TextField<RegisterForm>
           id="username"
           label="Username"
@@ -87,7 +91,14 @@ const Login = () => {
 
         <ErrorMessage message={formError} />
         <div className={styles.buttonContainer}>
-          <Button label="Log In" type="submit" primary disabled={!isValid} />
+          <Button
+            label="Submit"
+            type="submit"
+            disabled={isSaving || !isValid}
+            size="full"
+            variant="solid"
+            color="primary"
+          />
         </div>
       </form>
     </AuthLayout>

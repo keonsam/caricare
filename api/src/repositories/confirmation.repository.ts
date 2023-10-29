@@ -20,8 +20,8 @@ export class ConfirmationRepository {
   }
 
   private generateCode() {
-    const minm = 100000;
-    const maxm = 999999;
-    return Math.floor(Math.random() * (maxm - minm + 1)) + minm;
+    const min = 100000;
+    const max = 999999;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }

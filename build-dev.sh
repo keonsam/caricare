@@ -41,16 +41,6 @@ echo "-- Running docker-compose build..."
 docker-compose build --pull
 
 # up
-echo ""
-if [ -z ${RUN_UP+x} ]; then     
-    read -p "Run 'docker-compose up' [y/n]? " -n 1 -r
-    echo ""
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        RUN_UP="true"
-    fi
-fi
 
-if [ $RUN_UP = "true" ]; then
-    echo "-- Running 'docker-compose up $DOCKER_OPTIONS'..."
-    docker-compose up $DOCKER_OPTIONS
-fi
+echo "-- Running 'docker-compose up $DOCKER_OPTIONS'..."
+docker-compose up $DOCKER_OPTIONS

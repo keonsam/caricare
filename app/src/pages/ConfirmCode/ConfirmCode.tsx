@@ -16,6 +16,7 @@ const ConfirmCode = () => {
   const [formError, setFormError] = useState('');
   const navigate = useNavigate();
   const { logIn } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
 
   const {
     register,
@@ -30,6 +31,7 @@ const ConfirmCode = () => {
 
   const onSubmit = async (data: ConfirmationForm) => {
     try {
+      setIsSaving(true);
       const { data: res } = await axiosClient.post<LoginResponse>(
         '/confirm-code',
         {
@@ -39,19 +41,22 @@ const ConfirmCode = () => {
       );
 
       logIn(res.token);
-      navigate('/create-profile');
+      navigate('/profile');
     } catch (e) {
       // ts-ignore
       console.log(e);
       if (e instanceof Error) setFormError(e?.message || '');
+    } finally {
+      setIsSaving(false);
     }
   };
   return (
-    <AuthLayout>
+    <AuthLayout subTitle="Confirmation">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <p>Enter 6 digit confirmation code sent to your email address.</p>
-        </div>
+        <p className={styles.confirmText}>
+          Please enter the six-digit confirmation code that has been sent to
+          your registered email address.
+        </p>
         <TextField<ConfirmationForm>
           id="code"
           label="Code"
@@ -70,7 +75,14 @@ const ConfirmCode = () => {
 
         <ErrorMessage message={formError} />
         <div className={styles.buttonContainer}>
-          <Button label="Confirm" type="submit" primary disabled={!isValid} />
+          <Button
+            label="Submit"
+            type="submit"
+            disabled={isSaving || !isValid}
+            size="full"
+            variant="solid"
+            color="primary"
+          />
         </div>
       </form>
     </AuthLayout>

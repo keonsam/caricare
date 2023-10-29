@@ -2,21 +2,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .paper {
+  display: flex;
   background: var(--white);
   width: 100%;
   min-height: 100%;
   flex: 1;
+}
+
+.subTitle {
+  margin-top: 24px;
+  font-size: 32px;
+  text-align: center;
+}
+
+.section {
+  flex: 1;
   padding: 16px;
 }
 
-.logoContainer {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
+.medBackground {
+  display: none;
+  background: url('//edgeinformation.com/wp-content/uploads/2018/10/Blog-13-Edge-Information-1.jpg');
+  background-size: cover;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
 
 @media only screen and (min-width: 960px) {
@@ -25,5 +38,9 @@
     border-radius: 25px;
     box-shadow: var(--elevation-4);
     min-height: 550px;
+  }
+
+  .medBackground {
+    display: block;
   }
 }

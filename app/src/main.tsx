@@ -12,7 +12,9 @@ import Home from './pages/Home/Home.tsx';
 import Login from './pages/Login/Login.tsx';
 import Register from './pages/Register/Register.tsx';
 import ConfirmCode from './pages/ConfirmCode/ConfirmCode.tsx';
-import UserInfo from './pages/UserInfo/UserInfo.tsx';
+import Profile from './pages/Profile/Profile.tsx';
+import Appointments from './pages/Appointments/Appointments.tsx';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
@@ -33,12 +35,16 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: 'create-profile',
-        element: <UserInfo />,
+        path: 'dashboard',
+        element: <ProtectedRoute element={<Dashboard />} />,
       },
       {
-        path: 'dashboard',
-        element: <Dashboard />,
+        path: 'appointments',
+        element: <ProtectedRoute element={<Appointments />} />,
+      },
+      {
+        path: 'profile',
+        element: <ProtectedRoute element={<Profile />} verifyInfo={false} />,
       },
     ],
   },

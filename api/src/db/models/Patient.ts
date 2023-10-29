@@ -13,7 +13,7 @@ import Credential from './Credential';
 @Table({
   timestamps: true,
 })
-export default class UserPatient extends Model {
+export default class Patient extends Model {
   @AllowNull(false)
   @Default(DataType.UUIDV4)
   @PrimaryKey
@@ -35,5 +35,19 @@ export default class UserPatient extends Model {
 
   @AllowNull(false)
   @Column
+  address: string;
+
+  @AllowNull(false)
+  @Column
   dob: string;
+
+  @Column(DataType.FLOAT)
+  height: number;
+
+  @Column(DataType.FLOAT)
+  weight: number;
+
+  @AllowNull(false)
+  @Column
+  ipAddress: string;
 }

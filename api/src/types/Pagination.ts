@@ -5,4 +5,5 @@ export type Pagination = {
   pageSize: number;
   sort: Sort;
   search?: string;
+  date?: string;
 };

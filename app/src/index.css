@@ -1,10 +1,18 @@
 :root {
   font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
 
+  --celtic-blue: #1366de;
+  --celtic-blue-rbg: 19, 102, 222;
+  --forest-green: #279111;
+  --forest-green-rbg: 39, 145, 17;
+  --cinnabar: #de5031;
+  --cinnabar-rbg: 220, 80, 49;
+  --white: #ffffff;
+  --background-grey: #f9f9f9;
+
   color: #000;
-  background-color: #fff;
+  background-color: var(--background-grey);
   padding: 0;
   margin: 0;
   min-height: 100%;
@@ -15,11 +23,6 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --celtic-blue: #1366de;
-  --celtic-blue-rbg: 19, 102, 222;
-  --forest-green: #279111;
-  --cinnabar: #de5031;
-  --white: #ffffff;
   --elevation-2: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
     0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   --elevation-3: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
@@ -47,7 +50,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
   padding: 0;
   margin: 0;
 }

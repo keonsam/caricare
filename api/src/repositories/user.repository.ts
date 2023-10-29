@@ -1,26 +1,67 @@
-import UserDoctor from '../db/models/UserDoctor';
-import UserPatient from '../db/models/UserPatient';
-import { UserInfo, UserDoctor as IUserDoctor } from '../types/User';
+import Doctor from '../db/models/Doctor';
+import Patient from '../db/models/Patient';
+import { DoctorData as IUserDoctorData, UserInfoData } from '../types/User';
 import sequelize from '../db/sequelize';
 import { Repository } from 'sequelize-typescript';
+import { UserRole } from '../types/Auth';
 
 export default class UserRepository {
-  userDoctorRepo: Repository<UserDoctor>;
-  userPatientRepo: Repository<UserPatient>;
+  doctorRepo: Repository<Doctor>;
+  patientRepo: Repository<Patient>;
   constructor() {
-    this.userDoctorRepo = sequelize.getRepository(UserDoctor);
-    this.userPatientRepo = sequelize.getRepository(UserPatient);
+    this.doctorRepo = sequelize.getRepository(Doctor);
+    this.patientRepo = sequelize.getRepository(Patient);
   }
 
-  create(userInfo: UserInfo) {
-    if (this.isUserDoctor(userInfo)) {
-      return this.userDoctorRepo.create(userInfo);
+  findAllDoctor() {
+    return this.doctorRepo.findAll();
+  }
+
+  findByPk(id: string) {
+    return this.doctorRepo.findByPk(id);
+  }
+
+  findUserByCredentialId(role: UserRole, credentialId: string) {
+    if (role === UserRole.DOCTOR) {
+      return this.doctorRepo.findOne({
+        where: {
+          credentialId,
+        },
+      });
     } else {
-      return this.userPatientRepo.create(userInfo);
+      return this.patientRepo.findOne({
+        where: {
+          credentialId,
+        },
+      });
     }
   }
 
-  private isUserDoctor(userInfo: UserInfo): userInfo is IUserDoctor {
-    return (userInfo as IUserDoctor).title !== undefined;
+  create(userInfo: UserInfoData) {
+    if (this.isUserDoctor(userInfo)) {
+      return this.doctorRepo.create(userInfo);
+    } else {
+      return this.patientRepo.create(userInfo);
+    }
+  }
+
+  // delete(role: UserRole, id: string) {
+  //   if (role === UserRole.DOCTOR) {
+  //     return this.doctorRepo.destroy({
+  //       where: {
+  //         id,
+  //       },
+  //     });
+  //   } else {
+  //     return this.patientRepo.destroy({
+  //       where: {
+  //         id,
+  //       },
+  //     });
+  //   }
+  // }
+
+  private isUserDoctor(userInfo: UserInfoData): userInfo is IUserDoctorData {
+    return (userInfo as IUserDoctorData).title !== undefined;
   }
 }

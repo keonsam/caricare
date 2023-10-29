@@ -34,4 +34,8 @@ export default class Credential extends Model {
   @AllowNull(false)
   @Column(DataType.ENUM(...Object.values(UserRole)))
   role: UserRole;
+
+  @AllowNull(false)
+  @Column
+  ipAddress: string;
 }

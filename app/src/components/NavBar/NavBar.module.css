@@ -1,0 +1,54 @@
+.navBar {
+  padding: 16px;
+  height: 100%;
+  background: var(--white);
+  box-shadow: var(--elevation-2);
+  width: 200px;
+  /* border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px; */
+  position: relative;
+}
+
+.nav {
+  margin-top: 40px;
+}
+
+.navLink {
+  display: block;
+  position: relative;
+  list-style: none;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 0.15px;
+  color: grey;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+}
+
+.navLink.active {
+  color: var(--celtic-blue);
+}
+
+.navLink.active:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--celtic-blue-rbg), 0.1);
+  border-radius: 10px;
+}
+
+.navLinkIcon {
+  margin-right: 8px;
+}
+
+.buttonContainer {
+  position: absolute;
+  width: calc(100% - 32px);
+  bottom: 24px;
+
+  display: flex;
+  justify-content: center;
+}

@@ -1,11 +1,21 @@
 .cardContainer {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.accountLabel {
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  margin: 0 0 8px 4px;
+  text-align: start;
 }
 
 .card {
-  max-width: 250px;
-  padding: 8px;
+  width: 170px;
+  padding: 8px 16px;
+  position: relative;
   background: var(--white);
   box-shadow: var(--elevation-2);
   border-radius: 10px;
@@ -21,20 +31,29 @@
 }
 
 .cardText {
-  text-align: center;
-  font-size: 16px;
+  text-align: start;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 1.3;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .active {
-  background: var(--celtic-blue);
-  color: white;
-  box-shadow: var(--elevation-3);
+  color: var(--celtic-blue);
+}
+
+.active:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--celtic-blue-rbg), 0.1);
+  border-radius: 10px;
 }
 
 .buttonContainer {
   display: flex;
-  margin-top: 24px;
-  justify-content: flex-end;
+  margin-top: 16px;
 }

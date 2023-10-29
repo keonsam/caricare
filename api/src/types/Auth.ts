@@ -17,6 +17,7 @@ export type Credential = {
   password: string;
   status: CredentialStatus;
   role: UserRole;
+  ipAddress: string;
 };
 
 export type Login = Pick<Credential, 'username' | 'password'>;
@@ -34,7 +35,8 @@ export type UserData = {
   credentialId: string;
   role: UserRole;
   status: CredentialStatus;
-  info?: UserInfo;
+  info: Partial<UserInfo>;
+  ipAddress: string;
 };
 
 export interface JWTPayload extends JwtPayload, UserData {}

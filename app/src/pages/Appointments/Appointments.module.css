@@ -1,0 +1,168 @@
+.paper {
+  background: var(--white);
+  box-shadow: var(--elevation-4);
+  padding: 16px;
+  border-radius: 10px;
+  max-width: 928px;
+  flex: 1;
+  /* flex */
+  display: flex;
+  flex-direction: column;
+}
+
+.appointButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 20px;
+}
+
+.noAppointments {
+  margin-top: 24px;
+  color: #c4c4c4;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination1 {
+  display: flex;
+  gap: 16px;
+}
+
+.paginationToggle {
+  font-size: 12px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 6px;
+  position: relative;
+  background: transparent;
+}
+
+.paginationToggle.active {
+  color: var(--celtic-blue);
+}
+
+.paginationToggle.active:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--celtic-blue-rbg), 0.1);
+  border-radius: 25px;
+}
+
+/* */
+
+.list {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.listSection {
+  flex: 1;
+}
+
+/* pagination */
+
+.paginationIcon {
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.paginationIcon.disabled {
+  color: gray;
+}
+
+/* list */
+.ul {
+  padding: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  list-style: none;
+  background: white;
+  box-shadow: var(--elevation-2);
+  flex: 1;
+  border-radius: 10px;
+  padding: 12px;
+
+  /*  flex */
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemActive {
+  border: 1px solid var(--celtic-blue);
+}
+
+.itemDetails {
+  flex: 1;
+}
+
+.itemTitle {
+  margin: 0;
+  /* margin-top: 8px;
+  margin-bottom: 0 */
+}
+
+.itemDate {
+  color: gray;
+  font-size: 14px;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.status {
+  width: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 12px;
+}
+
+.statusText {
+  padding: 8px;
+  border-radius: 25px;
+  margin: 0;
+  width: 71px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.statusText.pending {
+  color: var(--forest-green);
+  background: rgba(var(--forest-green-rbg), 0.1);
+}
+
+.statusText.confirmed {
+  color: var(--celtic-blue);
+  background: rgba(var(--celtic-blue-rbg), 0.1);
+}
+
+.statusText.canceled {
+  color: var(--cinnabar);
+  background: rgba(var(--cinnabar-rbg), 0.1);
+}
