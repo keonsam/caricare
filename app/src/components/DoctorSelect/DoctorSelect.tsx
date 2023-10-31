@@ -6,7 +6,7 @@ import {
 } from 'react-hook-form';
 import styles from './DoctorSelect.module.css';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axiosClient from '../../config/axiosClient';
 import { Doctor } from '../../types/User';
 import { useAuth } from '../../context/AuthContext';

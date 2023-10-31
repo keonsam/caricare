@@ -11,7 +11,7 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "tests/helpers"],
-  "exclude": ["node_modules"],
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "./tests"],
   "typeRoots": ["./node_modules/@types", "./types"]
 }

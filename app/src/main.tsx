@@ -7,13 +7,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Dashboard from './pages/Dashboard/Dashboard.tsx';
 import Home from './pages/Home/Home.tsx';
-import Login from './pages/Login/Login.tsx';
-import Register from './pages/Register/Register.tsx';
-import ConfirmCode from './pages/ConfirmCode/ConfirmCode.tsx';
-import Profile from './pages/Profile/Profile.tsx';
-import Appointments from './pages/Appointments/Appointments.tsx';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
@@ -24,27 +18,69 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       {
         path: 'register',
-        element: <Register />,
+        async lazy() {
+          const Register = (await import('./pages/Register/Register.tsx'))
+            .default;
+          return {
+            element: <Register />,
+          };
+        },
       },
       {
         path: 'confirmation/:id',
-        element: <ConfirmCode />,
+        async lazy() {
+          const ConfirmCode = (
+            await import('./pages/ConfirmCode/ConfirmCode.tsx')
+          ).default;
+          return {
+            element: <ConfirmCode />,
+          };
+        },
       },
       {
         path: 'login',
-        element: <Login />,
+        async lazy() {
+          const Login = (await import('./pages/Login/Login.tsx')).default;
+          return {
+            element: <Login />,
+          };
+        },
       },
       {
         path: 'dashboard',
-        element: <ProtectedRoute element={<Dashboard />} />,
+        async lazy() {
+          const Dashboard = (await import('./pages/Dashboard/Dashboard.tsx'))
+            .default;
+          return {
+            element: (
+              <ProtectedRoute element={<Dashboard />} verifyInfo={false} />
+            ),
+          };
+        },
       },
       {
         path: 'appointments',
-        element: <ProtectedRoute element={<Appointments />} />,
+        async lazy() {
+          const Appointments = (
+            await import('./pages/Appointments/Appointments.tsx')
+          ).default;
+          return {
+            element: (
+              <ProtectedRoute element={<Appointments />} verifyInfo={false} />
+            ),
+          };
+        },
       },
       {
         path: 'profile',
-        element: <ProtectedRoute element={<Profile />} verifyInfo={false} />,
+        async lazy() {
+          const Profile = (await import('./pages/Profile/Profile.tsx')).default;
+          return {
+            element: (
+              <ProtectedRoute element={<Profile />} verifyInfo={false} />
+            ),
+          };
+        },
       },
     ],
   },
