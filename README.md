@@ -28,7 +28,7 @@ Navigate to the root directory of the CariCare application.
 Run the following command to start the project:
 
 ```plaintext
-docker compose up
+./build-dev.sh
 ```
 
 Front-End: Access the front-end application at http://localhost:5173/.
