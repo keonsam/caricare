@@ -107,7 +107,7 @@ const AppointmentModal = ({ appointment, id, onClose }: Props) => {
           label="Description"
           error={errors.description?.message}
           name="description"
-          placeholder="Short description to the doctor"
+          placeholder="Short description of Appointment"
           register={register}
           required
           options={{

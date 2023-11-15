@@ -30,7 +30,7 @@ export default function ProtectedRoute({
     }
 
     if (verifyInfo && !user.info.id) {
-      navigate('/create-profile');
+      navigate('/profile');
       return;
     }
   }, [isLogIn, user.role, role, navigate, verifyInfo, user.info]);

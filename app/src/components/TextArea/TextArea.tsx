@@ -8,6 +8,7 @@ import {
 } from 'react-hook-form';
 
 type Props<T extends FieldValues> = {
+  classes?: string;
   label: string;
   required?: boolean;
   id: string;
@@ -21,6 +22,7 @@ type Props<T extends FieldValues> = {
 };
 
 const TextArea = <T extends FieldValues>({
+  classes = '',
   label,
   id,
   required,
@@ -31,7 +33,7 @@ const TextArea = <T extends FieldValues>({
   register,
 }: Props<T>) => {
   return (
-    <div className={styles.textarea}>
+    <div className={`${styles.textarea} ${classes}`}>
       {label && (
         <label className={styles.label} htmlFor={id}>
           {label}

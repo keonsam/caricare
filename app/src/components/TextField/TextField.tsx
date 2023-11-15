@@ -8,6 +8,7 @@ import styles from './TextField.module.css';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 type Props<T extends FieldValues> = {
+  classes?: string;
   error?: string;
   id: string;
   label?: string;
@@ -20,6 +21,7 @@ type Props<T extends FieldValues> = {
 };
 
 export default function TextField<T extends FieldValues>({
+  classes = '',
   error,
   label,
   id,
@@ -30,7 +32,7 @@ export default function TextField<T extends FieldValues>({
   type = 'text',
 }: Props<T>) {
   return (
-    <div className={styles.textField}>
+    <div className={`${styles.textField} ${classes}`}>
       {label && (
         <label htmlFor={id} className={styles.label}>
           {label}

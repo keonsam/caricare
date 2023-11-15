@@ -53,7 +53,7 @@ const router = createBrowserRouter([
             .default;
           return {
             element: (
-              <ProtectedRoute element={<Dashboard />} verifyInfo={false} />
+              <ProtectedRoute element={<Dashboard />} />
             ),
           };
         },
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
           ).default;
           return {
             element: (
-              <ProtectedRoute element={<Appointments />} verifyInfo={false} />
+              <ProtectedRoute element={<Appointments />} />
             ),
           };
         },

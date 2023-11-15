@@ -58,7 +58,7 @@ userRouter.get(
 userRouter.post(
   '/doctors',
   authenticate,
-  authorization([UserRole.DOCTOR]),
+  authorization([UserRole.DOCTOR], false),
   validate(userDoctorSchema, 'body'),
   userController.create,
 );
@@ -66,7 +66,7 @@ userRouter.post(
 userRouter.post(
   '/patients',
   authenticate,
-  authorization([UserRole.PATIENT]),
+  authorization([UserRole.PATIENT], false),
   validate(userPatientSchema, 'body'),
   userController.create,
 );

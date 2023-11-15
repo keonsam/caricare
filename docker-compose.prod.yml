@@ -25,7 +25,7 @@ services:
         container_name: caricare-app-prod
         image: caricare-app:localprod
         ports:
-            - "8080:8080"
+            - "80:80"
         init: true
         networks:
             caricare:
