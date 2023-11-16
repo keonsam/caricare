@@ -21,6 +21,22 @@ export default class UserRepository {
     return this.doctorRepo.findByPk(id);
   }
 
+  findProfile(id: string, role: string) {
+    if (role === UserRole.DOCTOR) {
+      return this.doctorRepo.findOne({
+        where: {
+          id,
+        },
+      });
+    } else {
+      return this.patientRepo.findOne({
+        where: {
+          id,
+        },
+      });
+    }
+  }
+
   findUserByCredentialId(role: UserRole, credentialId: string) {
     if (role === UserRole.DOCTOR) {
       return this.doctorRepo.findOne({
@@ -44,22 +60,6 @@ export default class UserRepository {
       return this.patientRepo.create(userInfo);
     }
   }
-
-  // delete(role: UserRole, id: string) {
-  //   if (role === UserRole.DOCTOR) {
-  //     return this.doctorRepo.destroy({
-  //       where: {
-  //         id,
-  //       },
-  //     });
-  //   } else {
-  //     return this.patientRepo.destroy({
-  //       where: {
-  //         id,
-  //       },
-  //     });
-  //   }
-  // }
 
   private isUserDoctor(userInfo: UserInfoData): userInfo is IUserDoctorData {
     return (userInfo as IUserDoctorData).title !== undefined;

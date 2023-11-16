@@ -6,7 +6,10 @@ import {
   PrimaryKey,
   Default,
   DataType,
+  ForeignKey,
+  Unique,
 } from 'sequelize-typescript';
+import Credential from './Credential';
 
 @Table({
   timestamps: true,
@@ -18,8 +21,13 @@ export default class Confirmation extends Model {
   @Column(DataType.UUID)
   id: string;
 
-  @AllowNull(false)
-  @Column
+  @Unique
+  @ForeignKey(() => Credential)
+  @Column({
+    allowNull: false,
+    type: DataType.UUID,
+    onDelete: 'CASCADE',
+  })
   credentialId: string;
 
   @AllowNull(false)

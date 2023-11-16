@@ -15,6 +15,10 @@ export default class UserService {
     return this.userRepo.findAllDoctor();
   }
 
+  async findProfile(id: string, role: string) {
+    return this.userRepo.findProfile(id, role);
+  }
+
   async create(user: JWTPayload, userInfo: UserInfoData) {
     // create user info account
     userInfo.credentialId = user.credentialId;
@@ -35,8 +39,4 @@ export default class UserService {
 
     return { token };
   }
-
-  // async delete(user: JWTPayload) {
-  //   return this.userRepo.delete(user.role, user.info.id);
-  // }
 }

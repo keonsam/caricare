@@ -3,6 +3,7 @@ import { confirmSchema, loginSchema, registerSchema } from '../utils/schema';
 import { validate } from '../middleware/validation';
 import { Register } from '../types/Auth';
 import { AuthService } from '../services/auth.service';
+import { authenticate } from '../middleware/authentication';
 
 class AuthController {
   authService: AuthService;
@@ -59,6 +60,8 @@ class AuthController {
     try {
       const { user } = req;
 
+      console.log({ user });
+
       const result = await this.authService.delete(user.credentialId);
       res.status(201).json(result);
     } catch (error) {
@@ -85,10 +88,6 @@ authRouter.post(
   authController.confirm,
 );
 
-authRouter.delete(
-  '/account',
-  validate(confirmSchema, 'body'),
-  authController.confirm,
-);
+authRouter.delete('/account', authenticate, authController.delete);
 
 export default authRouter;

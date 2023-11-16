@@ -1,6 +1,19 @@
 import { Sequelize } from 'sequelize-typescript';
 import config from '../config';
 
+//prod
+// const sequelize = new Sequelize(config.db.connectionString, {
+//   repositoryMode: true,
+//   models: [__dirname + '/models'],
+//   dialectOptions: {
+//     ssl: {
+//       require: true, // This will help you. But you will see nwe error
+//       rejectUnauthorized: false, // This line will fix new error
+//     },
+//   },
+// }); // Example for postgres
+
+// dev
 const sequelize = new Sequelize(config.db.connectionString, {
   repositoryMode: true,
   models: [__dirname + '/models'],

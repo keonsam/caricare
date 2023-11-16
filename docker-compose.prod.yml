@@ -1,40 +1,40 @@
-version: '3.9'
+version: "3.9"
 
 services:
-    caricare-api:
-        build:
-            context: ./api
-            dockerfile: ./Dockerfile.prod
-            target: caricare-api-prod
-        container_name: caricare-api-prod
-        image: caricare-api:prod
-        init: true
-        ports:
-            - "3000:3000"
-        networks:
-            caricare:
-        environment:
-            NODE_PORT: 3000
-            PG_CONNECTION_STRING: postgresql://postgres:password@db:5432/caricare
+  caricare-api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile.prod
+      target: caricare-api-prod
+    container_name: caricare-api-prod
+    image: caricare-api:prod
+    init: true
+    ports:
+      - "3000:3000"
+    networks:
+      caricare:
+    environment:
+      NODE_PORT: 3000
+      NODE_ENV: production
 
-    caricare-app:
-        build:
-            context: ./app
-            dockerfile: ./Dockerfile.prod
-            target: caricare-app-prod
-        container_name: caricare-app-prod
-        image: caricare-app:localprod
-        ports:
-            - "80:80"
-        init: true
-        networks:
-            caricare:
-        environment:
-            NODE_ENV: production
+  caricare-app:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile.prod
+      target: caricare-app-prod
+    container_name: caricare-app-prod
+    image: caricare-app:prod
+    ports:
+      - "80:80"
+    init: true
+    networks:
+      caricare:
+    environment:
+      NODE_ENV: production
 
 networks:
-    caricare:
-        name: caricare
+  caricare:
+    name: caricare
 
 volumes:
-    postgres-data-localprod:
+  postgres-data-localprod:

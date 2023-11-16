@@ -21,11 +21,7 @@ export type Patient = {
   weight: number;
 };
 
-export type UserInfo = {
-  id: string;
-  firstName: string;
-  lastName: string;
-};
+export type UserInfo = Doctor | Patient;
 
 export type User = {
   credentialId: string;
@@ -39,3 +35,7 @@ export type DoctorForm = Omit<Doctor, 'id' | 'credentialId'>;
 export type PatientForm = Omit<Patient, 'id'>;
 
 export type UserInfoForm = DoctorForm & PatientForm;
+
+export function isUserDoctor(userInfo: UserInfo): userInfo is Doctor {
+  return (userInfo as Doctor).title !== undefined;
+}

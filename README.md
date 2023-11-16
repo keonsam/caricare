@@ -2,6 +2,10 @@
 
 The CariCare App is a patient management application built using React and Express. Follow these steps to set up the application.
 
+## Live Demo
+frontend: http://54.146.158.220
+backend: http://54.147.35.79:3000
+
 ## Environment Configuration
 
 ### API

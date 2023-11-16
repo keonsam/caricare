@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  BelongsTo,
   Column,
   DataType,
   Default,
@@ -21,9 +22,16 @@ export default class Patient extends Model {
   id: string;
 
   @ForeignKey(() => Credential)
-  @AllowNull(false)
-  @Column(DataType.UUID)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+    unique: true,
+    onDelete: 'CASCADE',
+  })
   credentialId: string;
+
+  @BelongsTo(() => Credential)
+  credential: Credential;
 
   @AllowNull(false)
   @Column

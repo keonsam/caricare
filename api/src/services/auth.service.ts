@@ -134,7 +134,9 @@ export class AuthService {
   }
 
   async delete(credentialId: string) {
-    return this.credentialRepository.delete(credentialId);
-    //TODO: Send confirmation of account delete email
+    const deleted = await this.credentialRepository.delete(credentialId);
+    console.log(deleted);
+    return deleted;
+    //TODO: Send email confirmation that account was successfully deleted
   }
 }

@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  BelongsTo,
   Column,
   DataType,
   Default,
@@ -7,6 +8,7 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
 } from 'sequelize-typescript';
 import Credential from './Credential';
 
@@ -21,9 +23,16 @@ export default class Doctor extends Model {
   id: string;
 
   @ForeignKey(() => Credential)
+  @Unique
   @AllowNull(false)
-  @Column(DataType.UUID)
+  @Column({
+    type: DataType.UUID,
+    onDelete: 'CASCADE',
+  })
   credentialId: string;
+
+  @BelongsTo(() => Credential)
+  credential: Credential;
 
   @AllowNull(false)
   @Column

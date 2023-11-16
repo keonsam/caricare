@@ -26,10 +26,10 @@ export class CredentialRepository {
     return this.repository.update(cred, { where: { id: cred.id } });
   }
 
-  delete(credentialId: string) {
+  delete(id: string) {
     return this.repository.destroy({
       where: {
-        credentialId,
+        id,
       },
     });
   }

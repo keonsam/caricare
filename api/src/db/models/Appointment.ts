@@ -26,20 +26,30 @@ export default class Appointment extends Model {
 
   @ForeignKey(() => Credential)
   @AllowNull(false)
-  @Column(DataType.UUID)
+  @Column({
+    type: DataType.UUID,
+    onDelete: 'CASCADE',
+  })
   credentialId: string;
 
+  @BelongsTo(() => Credential)
+  credential: Credential;
+
   @ForeignKey(() => Doctor)
-  @AllowNull(false)
-  @Column(DataType.UUID)
+  @Column({
+    type: DataType.UUID,
+    onDelete: 'SET NULL',
+  })
   doctorId: string;
 
   @BelongsTo(() => Doctor, 'doctorId')
   doctor: Doctor;
 
   @ForeignKey(() => Patient)
-  @AllowNull(false)
-  @Column(DataType.UUID)
+  @Column({
+    type: DataType.UUID,
+    onDelete: 'SET NULL',
+  })
   patientId: string;
 
   @BelongsTo(() => Patient, 'patientId')

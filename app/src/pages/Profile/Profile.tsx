@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axiosClient from '../../config/axiosClient';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { DoctorForm, PatientForm, UserInfoForm } from '../../types/User';
+import {
+  DoctorForm,
+  PatientForm,
+  UserInfo,
+  UserInfoForm,
+  isUserDoctor,
+} from '../../types/User';
 import { LoginResponse } from '../../types/Login';
 import styles from './Profile.module.css';
 import TextField from '../../components/TextField/TextField';
@@ -39,15 +45,57 @@ const Profile = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    setValue,
   } = useForm<UserInfoForm>({
     mode: 'onBlur',
     defaultValues: isDoctor ? defaultDoctor : defaultPatient,
   });
 
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const { data: profile } = await axiosClient.get<UserInfo>(
+          'users/profile',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        setValue('firstName', profile.firstName);
+        setValue('lastName', profile.lastName);
+
+        if (isUserDoctor(profile)) {
+          setValue('title', profile.title);
+          setValue('speciality', profile.speciality);
+          setValue('officeName', profile.officeName);
+          setValue('officeLocation', profile.officeLocation);
+        } else {
+          setValue('address', profile.address);
+          setValue('dob', profile.dob);
+          setValue('height', profile.height);
+          setValue('weight', profile.weight);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    if (isEdit) {
+      getUserInfo();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSubmit = async (data: PatientForm | DoctorForm) => {
     const route = isDoctor ? '/doctors' : '/patients';
     try {
       setIsSaving(true);
+      if (isEdit) {
+        // TODO: pending implementation
+        return;
+      }
+
       const { data: res } = await axiosClient.post<LoginResponse>(route, data, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -228,7 +276,7 @@ const Profile = () => {
             <Button
               label="Submit"
               type="submit"
-              disabled={isSaving || !isValid}
+              disabled={isSaving || isEdit || !isValid}
               size="medium"
               variant="solid"
               color="primary"
@@ -237,9 +285,7 @@ const Profile = () => {
             {isEdit && (
               <Button
                 label="Delete Account"
-                type="submit"
                 size="medium"
-                variant="outlined"
                 color="warn"
                 onClick={handleDelete}
               />
