@@ -14,6 +14,7 @@ import Credential from './Credential';
 
 @Table({
   timestamps: true,
+  tableName: 'health-professionals',
 })
 export default class Doctor extends Model {
   @AllowNull(false)
