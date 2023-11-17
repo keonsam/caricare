@@ -7,7 +7,7 @@ import {
   PatientForm,
   UserInfo,
   UserInfoForm,
-  isUserDoctor,
+  isUserPatient,
 } from '../../types/User';
 import { LoginResponse } from '../../types/Login';
 import styles from './Profile.module.css';
@@ -33,11 +33,12 @@ const defaultPatient = {
   address: '',
 };
 
+// TODO: separate this page to create and edit mode to avoid refresh before navigating
 const Profile = () => {
   const [formError, setFormError] = useState('');
   const navigate = useNavigate();
   const { user, logIn, token, logOut } = useAuth();
-  const isDoctor = user.role === 'doctor';
+  const isPatient = user.role === 'patient';
   const isEdit = !!user.info.id;
   const [isSaving, setIsSaving] = useState(false);
 
@@ -48,7 +49,7 @@ const Profile = () => {
     setValue,
   } = useForm<UserInfoForm>({
     mode: 'onBlur',
-    defaultValues: isDoctor ? defaultDoctor : defaultPatient,
+    defaultValues: !isPatient ? defaultDoctor : defaultPatient,
   });
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const Profile = () => {
         setValue('firstName', profile.firstName);
         setValue('lastName', profile.lastName);
 
-        if (isUserDoctor(profile)) {
+        if (!isUserPatient(profile)) {
           setValue('title', profile.title);
           setValue('speciality', profile.speciality);
           setValue('officeName', profile.officeName);
@@ -88,7 +89,6 @@ const Profile = () => {
   }, []);
 
   const onSubmit = async (data: PatientForm | DoctorForm) => {
-    const route = isDoctor ? '/doctors' : '/patients';
     try {
       setIsSaving(true);
       if (isEdit) {
@@ -96,11 +96,15 @@ const Profile = () => {
         return;
       }
 
-      const { data: res } = await axiosClient.post<LoginResponse>(route, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const { data: res } = await axiosClient.post<LoginResponse>(
+        '/users/profile',
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       logIn(res.token);
       navigate('/appointments');
@@ -135,8 +139,8 @@ const Profile = () => {
         {!isEdit && (
           <p className={styles.tagLine}>
             Welcome to CariCare! To begin, please provide your{' '}
-            {isDoctor ? 'professional' : 'personal'} information so that we can
-            get started with setting up your profile.
+            {!isPatient ? 'professional' : 'personal'} information so that we
+            can get started with setting up your profile.
           </p>
         )}
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -165,7 +169,7 @@ const Profile = () => {
             }}
           />
 
-          {!isDoctor && (
+          {isPatient && (
             <>
               <TextField<UserInfoForm>
                 id="address"
@@ -174,7 +178,7 @@ const Profile = () => {
                 name="address"
                 register={register}
                 placeholder="Enter personal address"
-                required={!isDoctor}
+                required={isPatient}
                 options={{
                   required: 'Address is required',
                 }}
@@ -187,7 +191,7 @@ const Profile = () => {
                 name="dob"
                 register={register}
                 placeholder="Enter date of birth"
-                required={!isDoctor}
+                required={isPatient}
                 type="date"
                 options={{
                   required: 'Date of Birth is required',
@@ -216,7 +220,7 @@ const Profile = () => {
             </>
           )}
 
-          {isDoctor && (
+          {!isPatient && (
             <>
               <TextField<UserInfoForm>
                 id="title"
@@ -225,7 +229,7 @@ const Profile = () => {
                 name="title"
                 register={register}
                 placeholder="Enter doctor's title"
-                required={isDoctor}
+                required={!isPatient}
                 options={{
                   required: 'Title is required',
                 }}
@@ -238,7 +242,7 @@ const Profile = () => {
                 name="speciality"
                 register={register}
                 placeholder="Enter medical field speciality"
-                required={isDoctor}
+                required={!isPatient}
               />
 
               <TextField<UserInfoForm>
@@ -248,7 +252,7 @@ const Profile = () => {
                 name="officeName"
                 register={register}
                 placeholder="Enter office name"
-                required={isDoctor}
+                required={!isPatient}
                 options={{
                   required: 'Office Name is required',
                 }}
@@ -261,7 +265,7 @@ const Profile = () => {
                 name="officeLocation"
                 register={register}
                 placeholder="Enter office location"
-                required={isDoctor}
+                required={!isPatient}
                 options={{
                   required: 'Office Location is required',
                 }}

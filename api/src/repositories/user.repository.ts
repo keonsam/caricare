@@ -1,6 +1,6 @@
 import Doctor from '../db/models/Doctor';
 import Patient from '../db/models/Patient';
-import { DoctorData as IUserDoctorData, UserInfoData } from '../types/User';
+import { UserInfoData } from '../types/User';
 import sequelize from '../db/sequelize';
 import { Repository } from 'sequelize-typescript';
 import { UserRole } from '../types/Auth';
@@ -22,14 +22,14 @@ export default class UserRepository {
   }
 
   findProfile(id: string, role: string) {
-    if (role === UserRole.DOCTOR) {
-      return this.doctorRepo.findOne({
+    if (role === UserRole.PATIENT) {
+      return this.patientRepo.findOne({
         where: {
           id,
         },
       });
     } else {
-      return this.patientRepo.findOne({
+      return this.doctorRepo.findOne({
         where: {
           id,
         },
@@ -38,30 +38,26 @@ export default class UserRepository {
   }
 
   findUserByCredentialId(role: UserRole, credentialId: string) {
-    if (role === UserRole.DOCTOR) {
-      return this.doctorRepo.findOne({
-        where: {
-          credentialId,
-        },
-      });
-    } else {
+    if (role === UserRole.PATIENT) {
       return this.patientRepo.findOne({
         where: {
           credentialId,
         },
       });
-    }
-  }
-
-  create(userInfo: UserInfoData) {
-    if (this.isUserDoctor(userInfo)) {
-      return this.doctorRepo.create(userInfo);
     } else {
-      return this.patientRepo.create(userInfo);
+      return this.doctorRepo.findOne({
+        where: {
+          credentialId,
+        },
+      });
     }
   }
 
-  private isUserDoctor(userInfo: UserInfoData): userInfo is IUserDoctorData {
-    return (userInfo as IUserDoctorData).title !== undefined;
+  create(userInfo: UserInfoData, role: UserRole) {
+    if (role === UserRole.PATIENT) {
+      return this.patientRepo.create(userInfo);
+    } else {
+      return this.doctorRepo.create(userInfo);
+    }
   }
 }

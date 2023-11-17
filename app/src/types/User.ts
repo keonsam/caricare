@@ -39,3 +39,7 @@ export type UserInfoForm = DoctorForm & PatientForm;
 export function isUserDoctor(userInfo: UserInfo): userInfo is Doctor {
   return (userInfo as Doctor).title !== undefined;
 }
+
+export function isUserPatient(userInfo: UserInfo): userInfo is Patient {
+  return (userInfo as Patient).dob !== undefined;
+}

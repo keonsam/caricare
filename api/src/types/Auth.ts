@@ -9,6 +9,7 @@ export enum CredentialStatus {
 export enum UserRole {
   PATIENT = 'patient',
   DOCTOR = 'doctor',
+  NURSE = 'nurse',
 }
 
 export type Credential = {

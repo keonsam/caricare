@@ -60,8 +60,6 @@ class AuthController {
     try {
       const { user } = req;
 
-      console.log({ user });
-
       const result = await this.authService.delete(user.credentialId);
       res.status(201).json(result);
     } catch (error) {

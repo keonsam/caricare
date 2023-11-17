@@ -85,6 +85,12 @@ const Register = () => {
             onClick={() => setValue('role', 'doctor')}
             text="Manage Patients and Appointments"
           />
+          <AccountType
+            active={role === 'nurse'}
+            header="Nurse"
+            onClick={() => setValue('role', 'nurse')}
+            text="Connect with doctors"
+          />
         </div>
         <TextField<RegisterForm>
           id="username"

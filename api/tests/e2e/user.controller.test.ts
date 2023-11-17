@@ -7,8 +7,7 @@ import { confirmDoctor, confirmPatient } from '../helpers/credential.helper';
 
 describe.skip('UserController (e2e)', () => {
   //   const USER_ENDPOINT = '/users';
-  const DOCTOR_ENDPOINT = '/doctors';
-  const PATIENT_ENDPOINT = '/patients';
+  const USER_PROFILE_ENDPOINT = '/users';
   let patientToken = '';
   let doctorToken = '';
 
@@ -21,7 +20,7 @@ describe.skip('UserController (e2e)', () => {
   describe('Create', () => {
     it('create user info account for patient', async () => {
       const res = await request(app)
-        .post(PATIENT_ENDPOINT)
+        .post(USER_PROFILE_ENDPOINT)
         .send(PATIENT_DATA)
         .set({ Authorization: `Bearer ${patientToken}` })
         .expect('Content-Type', /json/);
@@ -33,7 +32,7 @@ describe.skip('UserController (e2e)', () => {
 
     it('create user info account for doctor', async () => {
       const res = await request(app)
-        .post(DOCTOR_ENDPOINT)
+        .post(USER_PROFILE_ENDPOINT)
         .send(DOCTOR_DATA)
         .set({ Authorization: `Bearer ${doctorToken}` })
         .expect('Content-Type', /json/);

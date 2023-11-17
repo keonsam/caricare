@@ -22,7 +22,7 @@ export default class UserService {
   async create(user: JWTPayload, userInfo: UserInfoData) {
     // create user info account
     userInfo.credentialId = user.credentialId;
-    const savedUser = await this.userRepo.create(userInfo);
+    const savedUser = await this.userRepo.create(userInfo, user.role);
 
     // regenerate token
     const token = this.jwtRepo.generateToken({

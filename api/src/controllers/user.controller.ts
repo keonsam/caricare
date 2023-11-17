@@ -1,7 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { validate } from '../middleware/validation';
+import { validateProfile } from '../middleware/validation';
 import UserService from '../services/user.service';
-import { userDoctorSchema, userPatientSchema } from '../utils/schema';
 import { authenticate } from '../middleware/authentication';
 import { authorization } from '../middleware/authorization';
 import { UserRole } from '../types/Auth';
@@ -67,27 +66,18 @@ userRouter.get('/users/profile', authenticate, userController.findProfile);
 
 // get doctors profile for use in appointment select doctor.
 userRouter.get(
-  '/doctors',
+  'users/doctors',
   authenticate,
   authorization([UserRole.PATIENT]),
   userController.findAllDoctor,
 );
 
-// adds doctor profile information.
-userRouter.post(
-  '/doctors',
-  authenticate,
-  authorization([UserRole.DOCTOR], false),
-  validate(userDoctorSchema, 'body'),
-  userController.create,
-);
 
-// adds patient profile information.
+// create users profile
 userRouter.post(
-  '/patients',
+  '/users/profile',
   authenticate,
-  authorization([UserRole.PATIENT], false),
-  validate(userPatientSchema, 'body'),
+  validateProfile,
   userController.create,
 );
 
